@@ -1,0 +1,18 @@
+.env
+.env.*
+!.env.example
+
+.venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+
+models/
+cache/
+reports/
+*.log
+
+# Local Docker and model state
+.litert-lm/
+.ollama/
+.huggingface/

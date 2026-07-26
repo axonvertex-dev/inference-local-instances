@@ -1,0 +1,23 @@
+FROM python:3.12-slim-bookworm
+
+ARG LITERT_LM_VERSION=0.13.1
+
+ENV PYTHONUNBUFFERED=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_NO_CACHE_DIR=1
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       ca-certificates \
+       curl \
+       libgomp1 \
+       libstdc++6 \
+    && rm -rf /var/lib/apt/lists/* \
+    && python -m pip install --upgrade pip \
+    && python -m pip install "litert-lm==${LITERT_LM_VERSION}"
+
+COPY entrypoint.sh /usr/local/bin/litert-entrypoint
+RUN chmod 0755 /usr/local/bin/litert-entrypoint
+
+EXPOSE 9379
+ENTRYPOINT ["/usr/local/bin/litert-entrypoint"]

@@ -1,0 +1,28 @@
+name: inference-litert-lm
+
+services:
+  litert-lm:
+    build:
+      context: .
+      dockerfile: Dockerfile.cpu
+      args:
+        LITERT_LM_VERSION: ${LITERT_LM_VERSION:-0.13.1}
+    image: inference-local-litert-lm:${LITERT_LM_VERSION:-0.13.1}
+    container_name: inference-litert-lm
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${LITERT_PORT:-18182}:9379"
+    environment:
+      HF_TOKEN: ${HF_TOKEN:-}
+      HUGGING_FACE_HUB_TOKEN: ${HF_TOKEN:-}
+      LITERT_HF_REPO: ${LITERT_HF_REPO:-litert-community/gemma-4-E2B-it-litert-lm}
+      LITERT_MODEL_FILE: ${LITERT_MODEL_FILE:-gemma-4-E2B-it.litertlm}
+      LITERT_MODEL_ID: ${LITERT_MODEL_ID:-gemma4-e2b}
+      LITERT_CONTAINER_PORT: "9379"
+    volumes:
+      - litert-registry:/root/.litert-lm
+      - hf-cache:/root/.cache/huggingface
+
+volumes:
+  litert-registry:
+  hf-cache:
