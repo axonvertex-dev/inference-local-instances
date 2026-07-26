@@ -44,9 +44,10 @@ Verify it:
 
 Do not start vLLM and another large GPU runtime simultaneously unless the machine has enough free VRAM.
 
-Validate the repository before committing:
+Update the checksum manifest and validate the repository before committing:
 
 ```bash
+./scripts/update-manifest.sh
 ./scripts/validate-repo.sh
 ```
 
@@ -68,7 +69,7 @@ Validate the repository before committing:
 
 ## Important sizing note
 
-The full BF16 `google/gemma-4-E2B-it` vLLM recipe is intended for a single 24 GB or larger GPU. This repository defaults to Google's vLLM-oriented QAT W4A16 checkpoint to reduce model memory. Actual fit still depends on the vLLM version, GPU architecture, multimodal profiling, context length, concurrency, and KV-cache allocation.
+The full BF16 `google/gemma-4-E2B-it` vLLM recipe is intended for a single 24 GB or larger GPU. This repository defaults to Google's vLLM-oriented QAT W4A16 checkpoint to reduce model memory. Actual fit still depends on the vLLM version, GPU architecture, multimodal profiling, context length, concurrency, and KV-cache allocation. The default vLLM configuration is text-only and disables image/audio profiling to reduce startup memory; remove or change `--limit-mm-per-prompt` in the Compose files for multimodal use.
 
 ## Security default
 
@@ -79,3 +80,27 @@ Repository initialization and push commands are in `docs/REPOSITORY_SETUP.md`.
 ## Licensing
 
 This repository does not replace the licenses of the selected frameworks or model weights. Review `NOTICE.md` before redistribution.
+
+## Local repository validation
+
+Create a temporary validation environment:
+
+```bash
+python3 -m venv /tmp/inference-local-instances-validation
+source /tmp/inference-local-instances-validation/bin/activate
+python -m pip install -r requirements-dev.txt
+```
+
+Run validation:
+
+```bash
+./scripts/update-manifest.sh
+./scripts/validate-repo.sh
+```
+
+Clean up afterward:
+
+```bash
+deactivate
+rm -rf /tmp/inference-local-instances-validation
+```

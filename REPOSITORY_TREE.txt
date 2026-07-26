@@ -70,6 +70,7 @@ inference-local-instances/
   scripts/stop-litert.sh
   scripts/stop-ollama.sh
   scripts/stop-vllm.sh
+  scripts/update-manifest.sh
   scripts/validate-repo.sh
   scripts/verify-litert.sh
   scripts/verify-mlx.sh

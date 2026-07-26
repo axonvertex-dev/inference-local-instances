@@ -30,6 +30,15 @@ Then recreate the service:
 
 Also stop Ollama or other GPU processes and inspect `nvidia-smi`.
 
+The default Compose configuration disables image and audio profiling for text-only use. To enable multimodal input, change or remove:
+
+```yaml
+- --limit-mm-per-prompt
+- '{"image":0,"audio":0}'
+```
+
+Recalculate VRAM before enabling multimodal input.
+
 ## vLLM model is gated
 
 1. Accept the model terms on the model repository.

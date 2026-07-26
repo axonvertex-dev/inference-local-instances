@@ -17,6 +17,11 @@ command -v python3 >/dev/null 2>&1 || {
 }
 
 python3 --version
+python3 - <<'PY2'
+import sys
+if sys.version_info < (3, 10):
+    raise SystemExit("ERROR: Python 3.10 or newer is required for MLX-VLM.")
+PY2
 sw_vers
 
 echo "Apple Silicon MLX preflight passed."

@@ -30,6 +30,8 @@ services:
       - ${VLLM_MAX_NUM_SEQS:-2}
       - --tensor-parallel-size
       - ${VLLM_TENSOR_PARALLEL_SIZE:-1}
+      - --limit-mm-per-prompt
+      - '{"image":0,"audio":0}'
 
   litert-lm:
     profiles: ["litert"]

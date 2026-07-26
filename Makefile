@@ -2,7 +2,7 @@ SHELL := /usr/bin/env bash
 
 .PHONY: help preflight-linux-gpu preflight-wsl-gpu preflight-cpu preflight-macos \
         vllm-up vllm-down vllm-test litert-up litert-down litert-test \
-        ollama-up ollama-down ollama-pull ollama-test mlx-up mlx-test down
+        ollama-up ollama-down ollama-pull ollama-test mlx-up mlx-test manifest validate down
 
 help:
 	@printf '%s\n' \
@@ -13,7 +13,8 @@ help:
 	  'make vllm-up | vllm-down | vllm-test' \
 	  'make litert-up | litert-down | litert-test' \
 	  'make ollama-up | ollama-down | ollama-pull | ollama-test' \
-	  'make mlx-up | mlx-test'
+	  'make mlx-up | mlx-test' \
+	  'make manifest | validate'
 
 preflight-linux-gpu:
 	./scripts/preflight-linux-gpu.sh
@@ -65,3 +66,9 @@ mlx-test:
 
 down:
 	docker compose --profile vllm --profile litert --profile ollama down
+
+manifest:
+	./scripts/update-manifest.sh
+
+validate:
+	./scripts/validate-repo.sh
